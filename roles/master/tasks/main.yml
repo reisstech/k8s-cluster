@@ -16,7 +16,7 @@
     src: /root/kubejoin.sh
     dest: ./join/
 
- name: Organize files
+- name: Organize files
   shell: |
         cp join/{{ inventory_hostname }}/root/kubejoin.sh join/  
         rm -fr join/{{ inventory_hostname }}

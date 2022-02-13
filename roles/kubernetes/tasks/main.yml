@@ -1,7 +1,4 @@
 ---
-- name: Remove previos kubeadm configs
-  command: kubeadm reset -f
-
 - name: Install packages needed to use the Kubernetes apt repository
   apt:
     name: "{{ item }}"

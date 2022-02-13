@@ -1,5 +1,4 @@
 ---
-
 - hosts: k8s
   roles:
     - role: docker
@@ -11,4 +10,9 @@
 - hosts: master
   roles:
     - role: master
+      become: yes
+
+- hosts: worker
+  roles:
+    - role: workers
       become: yes
