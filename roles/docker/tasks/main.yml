@@ -1,0 +1,26 @@
+---
+- name: Install Docker PreReqs
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  loop: "{{ docker_prereqs_packages }}"
+
+
+- name: Add the Docker's official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+
+- name: Add the Docker Repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+
+
+- name: Install Docker Engine
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  loop: "{{ docker_packages}}"

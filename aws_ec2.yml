@@ -1,0 +1,19 @@
+---
+plugin: aws_ec2
+
+aws_profile: default
+
+regions:
+  - us-east-1
+
+keyed_groups:
+  - key: tags.Name
+    separator: ""
+    
+  - key: tags.Type
+    separator: ""
+
+    parent_group: "{{ tags.Name}}" 
+
+hostnames:
+  - ip-address   

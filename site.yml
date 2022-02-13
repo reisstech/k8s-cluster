@@ -1,0 +1,14 @@
+---
+
+- hosts: k8s
+  roles:
+    - role: docker
+      become: yes
+
+    - role: kubernetes
+      become: yes
+
+- hosts: master
+  roles:
+    - role: master
+      become: yes

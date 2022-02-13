@@ -1,0 +1,38 @@
+---
+- name: Remove previos kubeadm configs
+  command: kubeadm reset -f
+
+- name: Install packages needed to use the Kubernetes apt repository
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ kubernetes_prereqs_packages }}"
+  
+- name: Download the Google Cloud public signing key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add the Kubernetes apt respository.
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    update_cache: yes
+
+- name: Install Kubernetes packages
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  loop: "{{ kubernetes_packages }}"
+
+- name: Copy the daemon.json file with systemd as cgroup driver to /etc/docker/
+  copy:
+    src: ./daemon.json
+    dest: /etc/docker/
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Restart kubelet deamon and docker
+  command: "{{ item }}"
+  loop: "{{ services_to_restart }}"

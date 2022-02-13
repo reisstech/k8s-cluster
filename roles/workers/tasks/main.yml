@@ -1,0 +1,9 @@
+---
+- name: Copy Join Script to worker nodes
+  copy:
+    src: ./join/kubejoin.sh
+    dest: /opt/kubejoin.sh
+    mode: '0700'
+
+- name: Join workers with Join script
+  shell: /opt/kubejoin.sh

@@ -1,0 +1,13 @@
+---
+kubernetes_prereqs_packages:
+  - apt-transport-https
+
+kubernetes_packages:
+  - kubelet
+  - kubeadm
+  - kubectl
+
+services_to_restart:
+ - systemctl daemon-reload
+ - systemctl restart docker
+ - systemctl restart kubelet

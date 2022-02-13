@@ -1,0 +1,29 @@
+---
+- name: Initiate control-plane node
+  command: kubeadm init
+  register: kubeadm_output
+
+- name: Create file with kubeadm output
+  copy:
+    content: "{{ kubeadm_output.stdout }}"
+    dest: /root/kubeadm_init
+
+- name: Create kubejoin script
+  shell: tail -2 /root/kubeadm_init > /root/kubejoin.sh
+
+- name: Fetch the kubejoin script
+  fetch:
+    src: /root/kubejoin.sh
+    dest: ./join/
+
+ name: Organize files
+  shell: |
+        cp join/{{ inventory_hostname }}/root/kubejoin.sh join/  
+        rm -fr join/{{ inventory_hostname }}
+  delegate_to: localhost
+  become: no
+
+- name: Install Pod network add-on
+  shell: kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
