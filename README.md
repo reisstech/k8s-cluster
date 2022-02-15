@@ -1,2 +1,3 @@
 # k8s-cluster
-Deploying an automatic Kubernetes cluster using Terraform, Ansible and GitHub Actions
+
+Deploying a single Kubernetes cluster using Terraform and Ansible.
